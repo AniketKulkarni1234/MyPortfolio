@@ -1,0 +1,324 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #0f0f0f;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+/* CENTER FROM BOTH SIDES */
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* MAIN LAYOUT */
+.app-layout {
+  display: flex;
+  gap: 30px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+/* CONTENT AREA */
+.main-content {
+  flex: 1;
+  background: #161616;
+  border-radius: 20px;
+  padding: 30px;
+}
+body {
+  background: #0f0f0f;
+  color: white;
+}
+
+section {
+  margin-bottom: 60px;
+}
+.hover-scale {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-scale:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+input:focus,
+textarea:focus {
+  border-color: #facc15;
+  outline: none;
+  transform: scale(1.02);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.fade-slide-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+
+.fade-slide-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Intro Animation */
+.hero-letter {
+  font-size: 120px;
+  font-weight: 900;
+  color: #facc15;
+  opacity: 0;
+  transform: scale(0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  transition: all 1s ease-out;
+  z-index: 9999;
+}
+
+.hero-letter.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 1s ease-in;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transition-delay: 1s;
+}
+/* Hero letter */
+.hero-letter {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 1s ease-out;
+}
+
+.hero-letter.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Fade in main content */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeInHero {
+  0% { opacity: 0; transform: scale(0.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.hero-letter {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 1s ease-out;
+}
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Optional: smooth scroll if arrow clicked later */
+html {
+  scroll-behavior: smooth;
+}
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Optional: smooth scroll for the whole page */
+html {
+  scroll-behavior: smooth;
+}
+/* Custom smooth scrollbar */
+body::-webkit-scrollbar {
+  width: 8px; /* scrollbar width */
+}
+
+body::-webkit-scrollbar-track {
+  background: #0f0f0f; /* track color */
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #facc15; /* scrollbar thumb color */
+  border-radius: 10px;
+  border: 2px solid #0f0f0f; /* adds spacing around thumb */
+}
+
+body {
+  scrollbar-width: thin; /* for Firefox */
+  scrollbar-color: #facc15 #0f0f0f; /* thumb track for Firefox */
+  scroll-behavior: smooth; /* smooth scroll for anchor links */
+}
+/* Hide default cursor */
+* {
+  cursor: none;
+}
+
+/* Small center dot */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #facc15; /* yellow */
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 10000;
+}
+
+/* Outer bubble */
+.cursor-outline {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #facc15;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease-out;
+}
+
+/* Hover effect on clickable elements */
+a:hover ~ .cursor-outline,
+button:hover ~ .cursor-outline {
+  transform: translate(-50%, -50%) scale(1.6);
+}
+/* Hide default cursor */
+* {
+  cursor: none;
+}
+
+/* Cursor dot */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #facc15;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+}
+
+/* Cursor outline */
+.cursor-outline {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #facc15;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s ease-out;
+}
+
+/* Hover expand */
+.cursor-outline.hover {
+  transform: translate(-50%, -50%) scale(1.8);
+}
+
+/* Click ripple */
+.cursor-ripple {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: rgba(250, 204, 21, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: ripple 0.6s ease-out forwards;
+  z-index: 9998;
+}
+
+@keyframes ripple {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+/* Cursor text */
+.cursor-text {
+  position: fixed;
+  color: #0f0f0f;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  pointer-events: none;
+  z-index: 10001;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Show text */
+.cursor-text.show {
+  opacity: 1;
+}
+
+/* Magnetic transition */
+.magnetic {
+  transition: transform 0.3s ease;
+}
+/* Clickable elements smooth */
+button,
+a,
+input,
+textarea {
+  transition: transform 0.3s ease;
+}
+
+
+
