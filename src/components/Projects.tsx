@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 export default function Projects() {
-  const cardsRef = useRef<HTMLDivElement[]>([]);
+  // ✅ TS-safe ref: array of HTMLDivElement | null
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [isMobile, setIsMobile] = useState(false);
 
-  // detect screen size
+  // Detect screen size
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768);
     check();
@@ -15,15 +16,14 @@ export default function Projects() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  // Optional: intersection observer for fade-in
   useEffect(() => {
     cardsRef.current.forEach((el) => {
       if (!el) return;
       const observer = new IntersectionObserver(
         (entries, observer) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              observer.unobserve(entry.target);
-            }
+            if (entry.isIntersecting) observer.unobserve(entry.target);
           });
         },
         { threshold: 0.2 }
@@ -73,23 +73,9 @@ export default function Projects() {
 
   return (
     <section style={{ padding: isMobile ? "20px 0" : "40px 0" }}>
-      <h1
-        style={{
-          fontSize: isMobile ? "24px" : "30px",
-          marginBottom: "8px",
-        }}
-      >
-        Projects
-      </h1>
+      <h1 style={{ fontSize: isMobile ? "24px" : "30px", marginBottom: "8px" }}>Projects</h1>
 
-      <div
-        style={{
-          width: "50px",
-          height: "4px",
-          background: "#facc15",
-          marginBottom: "30px",
-        }}
-      />
+      <div style={{ width: "50px", height: "4px", background: "#facc15", marginBottom: "30px" }} />
 
       <div
         style={{
@@ -101,8 +87,10 @@ export default function Projects() {
         {projects.map((project, index) => (
           <motion.div
             key={index}
+            // ✅ TS-safe ref: explicit void
             ref={(el) => {
-              cardsRef.current[index] = el || undefined; // ✅ fix: returns void
+              cardsRef.current[index] = el; // assign element
+              return; // ensure void
             }}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -120,40 +108,16 @@ export default function Projects() {
             }}
           >
             <div>
-              <h3
-                style={{
-                  fontSize: isMobile ? "18px" : "20px",
-                  marginBottom: "6px",
-                  color: "#facc15",
-                }}
-              >
+              <h3 style={{ fontSize: isMobile ? "18px" : "20px", marginBottom: "6px", color: "#facc15" }}>
                 {project.title}
               </h3>
-
-              <span style={{ fontSize: "12px", color: "#aaa" }}>
-                {project.date}
-              </span>
-
-              <p
-                style={{
-                  fontSize: isMobile ? "14px" : "15px",
-                  margin: "12px 0",
-                  lineHeight: 1.6,
-                  color: "#ccc",
-                }}
-              >
+              <span style={{ fontSize: "12px", color: "#aaa" }}>{project.date}</span>
+              <p style={{ fontSize: isMobile ? "14px" : "15px", margin: "12px 0", lineHeight: 1.6, color: "#ccc" }}>
                 {project.description}
               </p>
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "8px",
-                marginBottom: "12px",
-              }}
-            >
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "12px" }}>
               {project.tech.map((tech, i) => (
                 <span
                   key={i}
@@ -170,13 +134,7 @@ export default function Projects() {
               ))}
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: isMobile ? "column" : "row",
-                gap: "10px",
-              }}
-            >
+            <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: "10px" }}>
               <a
                 href={project.demo}
                 target="_blank"
@@ -193,7 +151,6 @@ export default function Projects() {
               >
                 Live Demo
               </a>
-
               <a
                 href={project.github}
                 target="_blank"
