@@ -101,7 +101,9 @@ export default function Projects() {
         {projects.map((project, index) => (
           <motion.div
             key={index}
-            ref={(el) => (cardsRef.current[index] = el!)}
+            ref={(el) => {
+              cardsRef.current[index] = el || undefined; // ✅ fix: returns void
+            }}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -144,7 +146,6 @@ export default function Projects() {
               </p>
             </div>
 
-            {/* TECH STACK */}
             <div
               style={{
                 display: "flex",
@@ -169,7 +170,6 @@ export default function Projects() {
               ))}
             </div>
 
-            {/* BUTTONS */}
             <div
               style={{
                 display: "flex",
