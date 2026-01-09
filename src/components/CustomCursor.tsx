@@ -3,9 +3,17 @@ import { useEffect } from "react";
 
 export default function CustomCursor() {
   useEffect(() => {
+    // ❌ Disable cursor on touch devices (mobile / tablet)
+    const isTouchDevice =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+    if (isTouchDevice) return;
+
     const dot = document.querySelector(".cursor-dot") as HTMLElement;
     const outline = document.querySelector(".cursor-outline") as HTMLElement;
     const text = document.querySelector(".cursor-text") as HTMLElement;
+
+    if (!dot || !outline || !text) return;
 
     let outlineX = 0;
     let outlineY = 0;
@@ -32,12 +40,10 @@ export default function CustomCursor() {
     // -----------------------------
     // AUTO HOVER DETECTION
     // -----------------------------
-    const handleMouseOver = (e: MouseEvent) => {
+    const handleHover = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
 
-      if (
-        target.closest("button, a, input, textarea, [role='button']")
-      ) {
+      if (target.closest("button, a, input, textarea, [role='button']")) {
         outline.classList.add("hover");
         text.classList.add("show");
 
@@ -51,9 +57,9 @@ export default function CustomCursor() {
     };
 
     // -----------------------------
-    // AUTO MAGNETIC EFFECT
+    // MAGNETIC EFFECT
     // -----------------------------
-    const handleMouseMove = (e: MouseEvent) => {
+    const magneticMove = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest(
         "button, a, input, textarea"
       ) as HTMLElement;
@@ -64,10 +70,10 @@ export default function CustomCursor() {
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
 
-      target.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+      target.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
     };
 
-    const resetMagnetic = (e: MouseEvent) => {
+    const magneticReset = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest(
         "button, a, input, textarea"
       ) as HTMLElement;
@@ -78,7 +84,7 @@ export default function CustomCursor() {
     // -----------------------------
     // CLICK RIPPLE
     // -----------------------------
-    const click = (e: MouseEvent) => {
+    const clickRipple = (e: MouseEvent) => {
       const ripple = document.createElement("div");
       ripple.className = "cursor-ripple";
       ripple.style.left = `${e.clientX}px`;
@@ -89,17 +95,17 @@ export default function CustomCursor() {
     };
 
     window.addEventListener("mousemove", move);
-    window.addEventListener("mousemove", handleMouseOver);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseleave", resetMagnetic);
-    window.addEventListener("click", click);
+    window.addEventListener("mousemove", handleHover);
+    window.addEventListener("mousemove", magneticMove);
+    window.addEventListener("mouseout", magneticReset);
+    window.addEventListener("click", clickRipple);
 
     return () => {
       window.removeEventListener("mousemove", move);
-      window.removeEventListener("mousemove", handleMouseOver);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseleave", resetMagnetic);
-      window.removeEventListener("click", click);
+      window.removeEventListener("mousemove", handleHover);
+      window.removeEventListener("mousemove", magneticMove);
+      window.removeEventListener("mouseout", magneticReset);
+      window.removeEventListener("click", clickRipple);
     };
   }, []);
 

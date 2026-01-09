@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import {
   FaGraduationCap,
   FaBriefcase,
@@ -22,6 +23,15 @@ import {
 } from "react-icons/si";
 
 export default function Resume() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const education = [
     {
       school: "Om Vidyalaya SSC Board",
@@ -78,32 +88,27 @@ export default function Resume() {
     <section
       style={{
         position: "relative",
-        paddingLeft: "80px",
+        paddingLeft: isMobile ? "20px" : "80px",
         paddingRight: "20px",
       }}
     >
       <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>Resume</h1>
-      <div
-        style={{
-          width: "50px",
-          height: "4px",
-          background: "#facc15",
-          marginBottom: "30px",
-        }}
-      />
+      <div style={{ width: "50px", height: "4px", background: "#facc15", marginBottom: "30px" }} />
 
-      {/* Vertical timeline bar - extends full section height */}
-      <div
-        style={{
-          position: "absolute",
-          left: "36px",
-          top: "90px",
-          bottom: "20px", // ✅ full section height
-          width: "4px",
-          background: "#facc15",
-          borderRadius: "2px",
-        }}
-      />
+      {/* TIMELINE (DESKTOP ONLY) */}
+      {!isMobile && (
+        <div
+          style={{
+            position: "absolute",
+            left: "36px",
+            top: "90px",
+            bottom: "20px",
+            width: "4px",
+            background: "#facc15",
+            borderRadius: "2px",
+          }}
+        />
+      )}
 
       {/* EDUCATION */}
       <h2 style={{ fontSize: "22px", marginBottom: "15px" }}>Education</h2>
@@ -115,25 +120,31 @@ export default function Resume() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            style={{ position: "relative", marginBottom: "40px", paddingLeft: "40px" }}
+            style={{
+              position: "relative",
+              marginBottom: "40px",
+              paddingLeft: isMobile ? "0px" : "40px",
+            }}
           >
-            <span
-              style={{
-                position: "absolute",
-                left: "-50px",
-                top: "0",
-                width: "28px",
-                height: "28px",
-                background: "#facc15",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#1b1b1b",
-              }}
-            >
-              <FaGraduationCap size={14} />
-            </span>
+            {!isMobile && (
+              <span
+                style={{
+                  position: "absolute",
+                  left: "-50px",
+                  top: "0",
+                  width: "28px",
+                  height: "28px",
+                  background: "#facc15",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#1b1b1b",
+                }}
+              >
+                <FaGraduationCap size={14} />
+              </span>
+            )}
             <strong>{edu.school}</strong>
             <p style={{ fontSize: "14px" }}>
               {edu.duration} | {edu.course}
@@ -152,25 +163,31 @@ export default function Resume() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            style={{ position: "relative", marginBottom: "45px", paddingLeft: "40px" }}
+            style={{
+              position: "relative",
+              marginBottom: "40px",
+              paddingLeft: isMobile ? "0px" : "40px",
+            }}
           >
-            <span
-              style={{
-                position: "absolute",
-                left: "-50px",
-                top: "0",
-                width: "28px",
-                height: "28px",
-                background: "#facc15",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#1b1b1b",
-              }}
-            >
-              <FaBriefcase size={14} />
-            </span>
+            {!isMobile && (
+              <span
+                style={{
+                  position: "absolute",
+                  left: "-50px",
+                  top: "0",
+                  width: "28px",
+                  height: "28px",
+                  background: "#facc15",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#1b1b1b",
+                }}
+              >
+                <FaBriefcase size={14} />
+              </span>
+            )}
             <strong>{exp.role}</strong>
             <p style={{ fontSize: "14px" }}>{exp.duration}</p>
           </motion.li>
@@ -181,11 +198,11 @@ export default function Resume() {
       <h2 style={{ fontSize: "22px", marginBottom: "25px" }}>My Skills</h2>
 
       {Object.entries(skills).map(([category, items]) => (
-        <div key={category} style={{ marginBottom: "35px", paddingLeft: "40px" }}>
+        <div key={category} style={{ marginBottom: "35px" }}>
           <h3 style={{ marginBottom: "15px" }}>{category}</h3>
 
           {items.map((skill, idx) => (
-            <div key={idx} style={{ marginBottom: "14px", maxWidth: "360px" }}>
+            <div key={idx} style={{ marginBottom: "14px", maxWidth: "100%" }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
                 <span style={{ display: "flex", gap: "8px" }}>
                   {skill.icon} {skill.name}
@@ -195,7 +212,7 @@ export default function Resume() {
 
               <div
                 style={{
-                  width: "360px",
+                  width: "100%",
                   height: "8px",
                   background: "#2a2a2a",
                   borderRadius: "4px",

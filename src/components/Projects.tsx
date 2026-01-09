@@ -1,10 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Projects() {
   const cardsRef = useRef<HTMLDivElement[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // detect screen size
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     cardsRef.current.forEach((el) => {
@@ -13,7 +22,6 @@ export default function Projects() {
         (entries, observer) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
               observer.unobserve(entry.target);
             }
           });
@@ -31,7 +39,7 @@ export default function Projects() {
         "Developed a full-stack job portal with authentication, CRUD operations for job postings, job application functionality, and secured REST APIs using JWT.",
       tech: ["React.js", "Node.js", "Express.js", "MongoDB", "JWT"],
       date: "Feb 2024",
-      demo: "#", // replace with live demo URL
+      demo: "#",
       github: "https://github.com/AniketKulkarni1234/Job-Portal",
     },
     {
@@ -40,79 +48,111 @@ export default function Projects() {
         "Built a full-stack e-commerce application with product recommendation, user authentication, REST APIs, and managed data using MongoDB. Deployed on AWS & Vercel.",
       tech: ["React.js", "Node.js", "Express.js", "MongoDB", "Python", "AWS", "Vercel"],
       date: "May 2025",
-      demo: "#", // replace with live demo URL
+      demo: "#",
       github: "https://github.com/AniketKulkarni1234/Ecommerce-Recommender",
     },
     {
       title: "Portfolio Website",
       description:
-        "A personal portfolio website showcasing my skills, projects, and achievements. Features smooth animations, responsive design, dark mode, and interactive sections.",
+        "Personal portfolio showcasing skills, projects & achievements with smooth animations and responsive design.",
       tech: ["React.js", "Next.js", "Tailwind CSS", "Framer Motion"],
       date: "Jan 2026",
-      demo: "#", // replace with live demo URL
+      demo: "#",
       github: "https://github.com/AniketKulkarni1234/Portfolio",
     },
     {
       title: "AlgoVision Visualizer",
       description:
-        "Visualizer for algorithms: searching, sorting, and pathfinding algorithms with step-by-step animation. Allows changing array size, animation speed, and supports multiple algorithms.",
+        "Algorithm visualizer for searching, sorting, and pathfinding with step-by-step animations.",
       tech: ["React.js", "JavaScript", "CSS", "HTML", "Algorithms"],
       date: "Dec 2025",
-      demo: "#", // replace with live demo URL
+      demo: "#",
       github: "https://github.com/AniketKulkarni1234/AlgoVision",
     },
   ];
 
   return (
-    <section style={{ padding: "30px 0" }}>
-      <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>Projects</h1>
-      <div
-        className="line"
-        style={{ width: "50px", height: "4px", background: "#facc15", margin: "10px 0 30px 0" }}
-      ></div>
+    <section style={{ padding: isMobile ? "20px 0" : "40px 0" }}>
+      <h1
+        style={{
+          fontSize: isMobile ? "24px" : "30px",
+          marginBottom: "8px",
+        }}
+      >
+        Projects
+      </h1>
 
       <div
-        className="project-grid"
+        style={{
+          width: "50px",
+          height: "4px",
+          background: "#facc15",
+          marginBottom: "30px",
+        }}
+      />
+
+      <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: "30px",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gap: isMobile ? "20px" : "30px",
         }}
       >
         {projects.map((project, index) => (
           <motion.div
             key={index}
             ref={(el) => (cardsRef.current[index] = el!)}
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, delay: index * 0.2 }}
-            whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(250, 204, 21, 0.4)" }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.15 }}
+            whileHover={!isMobile ? { scale: 1.05 } : {}}
             style={{
               background: "#161616",
-              padding: "25px",
+              padding: isMobile ? "20px" : "25px",
               borderRadius: "16px",
-              minHeight: "250px",
               boxShadow: "0 4px 15px rgba(0,0,0,0.25)",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              cursor: "pointer",
             }}
           >
             <div>
-              <h3 style={{ fontSize: "20px", marginBottom: "6px", color: "#facc15" }}>
+              <h3
+                style={{
+                  fontSize: isMobile ? "18px" : "20px",
+                  marginBottom: "6px",
+                  color: "#facc15",
+                }}
+              >
                 {project.title}
               </h3>
-              <span style={{ fontSize: "13px", color: "#aaa", marginBottom: "12px", display: "block" }}>
+
+              <span style={{ fontSize: "12px", color: "#aaa" }}>
                 {project.date}
               </span>
-              <p style={{ fontSize: "15px", marginBottom: "15px", lineHeight: 1.6, color: "#ccc" }}>
+
+              <p
+                style={{
+                  fontSize: isMobile ? "14px" : "15px",
+                  margin: "12px 0",
+                  lineHeight: 1.6,
+                  color: "#ccc",
+                }}
+              >
                 {project.description}
               </p>
             </div>
 
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "10px" }}>
+            {/* TECH STACK */}
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "8px",
+                marginBottom: "12px",
+              }}
+            >
               {project.tech.map((tech, i) => (
                 <span
                   key={i}
@@ -129,49 +169,44 @@ export default function Projects() {
               ))}
             </div>
 
-            {/* Buttons */}
-            <div style={{ display: "flex", gap: "10px", marginTop: "auto" }}>
+            {/* BUTTONS */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: isMobile ? "column" : "row",
+                gap: "10px",
+              }}
+            >
               <a
                 href={project.demo}
                 target="_blank"
                 style={{
-                  padding: "6px 12px",
+                  textAlign: "center",
+                  padding: "8px",
                   backgroundColor: "#facc15",
                   color: "#000",
                   borderRadius: "8px",
                   fontSize: "13px",
-                  fontWeight: "600",
+                  fontWeight: 600,
                   textDecoration: "none",
-                  transition: "transform 0.3s",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
               >
                 Live Demo
               </a>
+
               <a
                 href={project.github}
                 target="_blank"
                 style={{
-                  padding: "6px 12px",
+                  textAlign: "center",
+                  padding: "8px",
                   backgroundColor: "#1b1b1b",
                   border: "1px solid #facc15",
                   color: "#facc15",
                   borderRadius: "8px",
                   fontSize: "13px",
-                  fontWeight: "600",
+                  fontWeight: 600,
                   textDecoration: "none",
-                  transition: "transform 0.3s, background 0.3s, color 0.3s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.05)";
-                  e.currentTarget.style.background = "#facc15";
-                  e.currentTarget.style.color = "#000";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
-                  e.currentTarget.style.background = "#1b1b1b";
-                  e.currentTarget.style.color = "#facc15";
                 }}
               >
                 GitHub

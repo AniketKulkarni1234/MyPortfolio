@@ -1,3 +1,7 @@
+/* ==========================
+   NAVBAR STYLES
+========================== */
+
 .navbar {
   position: fixed;
   top: 0;
@@ -10,6 +14,7 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  padding: 0 20px;
 }
 
 .nav-container {
@@ -18,9 +23,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
 }
 
+/* Logo */
+.logo {
+  font-weight: 600;
+  color: #facc15;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* Desktop nav links */
 .nav-links {
   display: flex;
   gap: 30px;
@@ -32,14 +45,90 @@
   cursor: pointer;
   color: #a1a1a1;
   padding: 10px;
+  transition: color 0.3s;
 }
 
+.nav-links li:hover,
 .nav-links li.active {
   color: #facc15;
 }
 
-.logo {
-  font-weight: 600;
-  color: #facc15;
-  cursor: pointer;
+/* ==========================
+   MOBILE RESPONSIVE
+========================== */
+
+@media (max-width: 768px) {
+  .nav-links {
+    position: fixed;
+    top: 70px; /* below navbar */
+    right: -100%; /* hidden by default */
+    width: 100%;
+    max-width: 300px;
+    height: calc(100vh - 70px);
+    flex-direction: column;
+    background: #161616;
+    gap: 20px;
+    padding: 40px 20px;
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.5);
+  }
+
+  .nav-links.open {
+    right: 0; /* show menu when open */
+  }
+
+  .nav-links li {
+    font-size: 16px;
+    padding: 12px 0;
+  }
+
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    width: 28px;
+    height: 20px;
+    position: relative;
+  }
+
+  .hamburger span {
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: #facc15;
+    left: 0;
+    transition: all 0.3s ease;
+  }
+
+  .hamburger span:nth-child(1) {
+    top: 0;
+  }
+
+  .hamburger span:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .hamburger span:nth-child(3) {
+    bottom: 0;
+  }
+
+  /* Hamburger toggle animation */
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg);
+    top: 50%;
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg);
+    bottom: 50%;
+  }
+}
+
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
 }
