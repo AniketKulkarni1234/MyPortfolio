@@ -72,7 +72,7 @@ export default function Sidebar() {
       <header
         style={{
           ...styles.navbar,
-          fontSize: isMobile ? "16px" : "20px",
+          fontSize: isMobile ? "7px" : "12px",
         }}
       >
         <h1 style={styles.navTitle}>Aniket's Portfolio</h1>
@@ -166,7 +166,7 @@ const styles = {
 
   navTitle: {
     background: "linear-gradient(270deg,#facc15,#f97316,#facc15)",
-    backgroundSize: "600% 600%",
+    backgroundSize: "500% 500%",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
     animation: "gradientMove 4s ease infinite",
@@ -209,7 +209,7 @@ const styles = {
   },
 
   role: {
-    fontSize: "13px",
+    fontSize: "16px",
     color: "#ccc",
     minHeight: "22px",
     fontWeight: 500,
